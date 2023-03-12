@@ -4,7 +4,7 @@ const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
-const COMMENT_COUUNT = 2;
+const COMMENT_COUUNT = 10;
 
 const MESSAGES = [
   'Всё отлично!',
@@ -52,7 +52,7 @@ const createPhotoContent = () => {
     url: `photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg`,
     description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
     likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-    comments: Array.from({ length: COMMENT_COUUNT }, createCommenter)
+    comments: Array.from({ length: getRandomInteger(0, COMMENT_COUUNT)}, createCommenter)
   };
   return createProfile;
 };
