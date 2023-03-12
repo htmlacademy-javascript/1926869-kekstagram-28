@@ -1,2 +1,1 @@
-import { createPost } from './create-post.js';
-createPost();
+import './picture.js';
