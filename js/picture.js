@@ -1,6 +1,6 @@
 import { createPost } from './create-post.js';
 
-const addPosts = (picture) => {
+const addPosts = () => {
 
   const picturePlace = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -20,5 +20,5 @@ const addPosts = (picture) => {
   });
 
   picturePlace.append(postFragment);
-}
+};
 export { addPosts };
