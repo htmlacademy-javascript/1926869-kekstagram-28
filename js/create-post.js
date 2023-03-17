@@ -38,7 +38,6 @@ const DESCRIPTIONS = [
 const generateIdPhoto = createRandomIdFromRangeGenerator(1, PICTURE_COUNT);
 const generateIdcomment = createRandomIdFromRangeGenerator(1, 54321);
 
-
 const createCommenter = () => ({
   id: generateIdcomment(),
   avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
@@ -46,16 +45,18 @@ const createCommenter = () => ({
   name: NAMES[getRandomInteger(0, NAMES.length - 1)]
 });
 
+export const commentsArray = Array.from({ length: getRandomInteger(0, COMMENT_COUUNT)}, createCommenter);
+
 const createPhotoContent = () => {
   const createProfile = {
     id: generateIdPhoto(),
     url: `photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg`,
     description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
     likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-    comments: Array.from({ length: getRandomInteger(0, COMMENT_COUUNT)}, createCommenter)
+    comments: commentsArray
   };
   return createProfile;
 };
 
 const createPost = () => Array.from({ length: PICTURE_COUNT }, createPhotoContent);
-export {createPost};
+export {createPost, DESCRIPTIONS};

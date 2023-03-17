@@ -1,22 +1,24 @@
-import {createPost} from './create-post.js';
+import { createPost } from './create-post.js';
 
-const picturePlace = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const addPosts = (picture) => {
 
-const posts = createPost();
+  const picturePlace = document.querySelector('.pictures');
+  const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const postFragment = document.createDocumentFragment();
+  const posts = createPost();
 
-posts.forEach(({url, likes, comments, description}) => {
-  const pictureElement = pictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__comments').textContent = comments.length;
-  pictureElement.querySelector('.picture__likes').textContent = likes;
+  const postFragment = document.createDocumentFragment();
 
-  postFragment.append(pictureElement);
-});
+  posts.forEach(({ url, likes, comments, description }) => {
+    const pictureElement = pictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__img').alt = description;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
 
+    postFragment.append(pictureElement);
+  });
 
-const addPosts = picturePlace.append(postFragment);
-export {addPosts};
+  picturePlace.append(postFragment);
+}
+export { addPosts };
