@@ -3,7 +3,7 @@ const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
-const COMMENT_COUUNT = 10;
+const COMMENT_COUNT = 10;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -40,7 +40,7 @@ const createCommenter = () => ({
   name: NAMES[getRandomInteger(0, NAMES.length - 1)]
 });
 
-export const commentsArray = Array.from({ length: getRandomInteger(0, COMMENT_COUUNT)}, createCommenter);
+const commentsArray = () => Array.from({ length: getRandomInteger(0, COMMENT_COUNT)}, createCommenter);
 
 const createPhotoContent = () => {
   const createProfile = {
@@ -48,10 +48,11 @@ const createPhotoContent = () => {
     url: `photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg`,
     description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
     likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-    comments: commentsArray
+    comments: commentsArray()
   };
   return createProfile;
 };
 
 const createPost = () => Array.from({ length: PICTURE_COUNT }, createPhotoContent);
-export {createPost, DESCRIPTIONS};
+const data = createPost();
+export {data};

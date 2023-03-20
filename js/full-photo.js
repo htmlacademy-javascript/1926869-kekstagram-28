@@ -1,7 +1,5 @@
-import { commentsArray } from './create-post.js';
 import { renderComments } from './comments.js';
-import { getRandomInteger } from './util.js';
-import { DESCRIPTIONS } from './create-post.js';
+import { data } from './create-post.js';
 import { isEscapeKey } from './util.js';
 
 
@@ -16,12 +14,7 @@ export const interactWithBigPicture = () => {
   const socialCommentCount = document.querySelector('.social__comment-count');
   const commentsLoader = document.querySelector('.comments-loader');
   const body = document.querySelector('body');
-
-  const onBigPictureEscKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      closeBigPicture();
-    }
-  };
+  let onBigPictureEscKeydown = undefined;
 
   const closeBigPicture = () => {
     bitPicture.classList.add('hidden');
@@ -29,19 +22,27 @@ export const interactWithBigPicture = () => {
     document.removeEventListener('keydown', onBigPictureEscKeydown);
   };
 
+  onBigPictureEscKeydown = (evt) => {
+    if (isEscapeKey(evt)) {
+      closeBigPicture();
+    }
+  };
+
+
   containerPhoto.addEventListener('click', (evt) => {
     const evtClosestPicture = evt.target.closest('.picture');
     if (evtClosestPicture) {
+      const target = evt.target.closest('.picture');
+      const currentDescription = data.find((item) => item.id === Number(target.dataset.id));
       bitPicture.classList.remove('hidden');
-
-      bigPictureImg.src = evtClosestPicture.querySelector('img').src;
-      bigPictureLikes.textContent = evtClosestPicture.querySelector('.picture__likes').textContent;
-      bigPictureComments.textContent = evtClosestPicture.querySelector('.picture__comments').textContent;
-      bigPictureDescriptions.textContent = DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)];
+      bigPictureImg.src = currentDescription.url;
+      bigPictureLikes.textContent = currentDescription.likes;
+      bigPictureComments.textContent = currentDescription.comments.length;
+      bigPictureDescriptions.textContent = currentDescription.descriptions;
       socialCommentCount.classList.add('hidden');
       commentsLoader.classList.add('hidden');
       body.classList.add('modal-open');
-      renderComments(commentsArray);
+      renderComments(currentDescription.comments);
     }
     document.addEventListener('keydown', onBigPictureEscKeydown);
   });
