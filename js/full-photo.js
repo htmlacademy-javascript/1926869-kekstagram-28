@@ -23,13 +23,20 @@ export const interactWithBigPicture = () => {
     }
   };
 
+  const closeBigPicture = () => {
+    bitPicture.classList.add('hidden');
+    body.classList.remove('modal-open');
+    document.removeEventListener('keydown', onBigPictureEscKeydown);
+  };
+
   containerPhoto.addEventListener('click', (evt) => {
-    if (evt.target.closest('.picture')) {
+    const evtClosestPicture = evt.target.closest('.picture');
+    if (evtClosestPicture) {
       bitPicture.classList.remove('hidden');
 
-      bigPictureImg.src = evt.target.closest('.picture').querySelector('img').src;
-      bigPictureLikes.textContent = evt.target.closest('.picture').querySelector('.picture__likes').textContent;
-      bigPictureComments.textContent = evt.target.closest('.picture').querySelector('.picture__comments').textContent;
+      bigPictureImg.src = evtClosestPicture.querySelector('img').src;
+      bigPictureLikes.textContent = evtClosestPicture.querySelector('.picture__likes').textContent;
+      bigPictureComments.textContent = evtClosestPicture.querySelector('.picture__comments').textContent;
       bigPictureDescriptions.textContent = DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)];
       socialCommentCount.classList.add('hidden');
       commentsLoader.classList.add('hidden');
@@ -38,12 +45,6 @@ export const interactWithBigPicture = () => {
     }
     document.addEventListener('keydown', onBigPictureEscKeydown);
   });
-
-  function closeBigPicture() {
-    bitPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onBigPictureEscKeydown);
-  }
 
   bigPictureClose.addEventListener('click', closeBigPicture);
 };
