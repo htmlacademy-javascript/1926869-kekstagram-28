@@ -1,11 +1,9 @@
 import {getRandomInteger, createRandomIdFromRangeGenerator} from './util.js';
-
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
-const COMMENT_COUUNT = 10;
-
+const COMMENT_COUNT = 10;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -14,7 +12,6 @@ const MESSAGES = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-
 const NAMES = [
   'Иван',
   'Виктор',
@@ -27,17 +24,14 @@ const NAMES = [
   'Пьяный мужик',
   'Супермен'
 ];
-
 const DESCRIPTIONS = [
   'Было весело',
   'Лето 2022',
   'На одной волне с космосом',
   'Что может быть лучше'
 ];
-
 const generateIdPhoto = createRandomIdFromRangeGenerator(1, PICTURE_COUNT);
 const generateIdcomment = createRandomIdFromRangeGenerator(1, 54321);
-
 
 const createCommenter = () => ({
   id: generateIdcomment(),
@@ -46,16 +40,19 @@ const createCommenter = () => ({
   name: NAMES[getRandomInteger(0, NAMES.length - 1)]
 });
 
+const commentsArray = () => Array.from({ length: getRandomInteger(0, COMMENT_COUNT)}, createCommenter);
+
 const createPhotoContent = () => {
   const createProfile = {
     id: generateIdPhoto(),
     url: `photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg`,
     description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
     likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-    comments: Array.from({ length: getRandomInteger(0, COMMENT_COUUNT)}, createCommenter)
+    comments: commentsArray()
   };
   return createProfile;
 };
 
 const createPost = () => Array.from({ length: PICTURE_COUNT }, createPhotoContent);
-export {createPost};
+const data = createPost();
+export {data};
