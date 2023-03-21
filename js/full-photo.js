@@ -1,7 +1,6 @@
-import { renderComments } from './comments.js';
+import { createComments } from './comments.js';
 import { data } from './create-post.js';
 import { isEscapeKey } from './util.js';
-
 
 export const interactWithBigPicture = () => {
   const bigPictureClose = document.querySelector('.big-picture__cancel');
@@ -10,11 +9,25 @@ export const interactWithBigPicture = () => {
   const bigPictureImg = bitPicture.querySelector('.big-picture__img img');
   const bigPictureLikes = bitPicture.querySelector('.likes-count');
   const bigPictureComments = bitPicture.querySelector('.comments-count');
+  const visibleCommentsCount = document.querySelector('.visible-comments-count');
+  const commentsLoader = document.querySelector('.social__comments-loader');
   const bigPictureDescriptions = bitPicture.querySelector('.social__caption');
-  const socialCommentCount = document.querySelector('.social__comment-count');
-  const commentsLoader = document.querySelector('.comments-loader');
   const body = document.querySelector('body');
   let onBigPictureEscKeydown = undefined;
+
+  const STEP_SHOW_COMMENTS = 5;
+  let START_SLICE_COMMENTS = 0;
+  let FINISH_SLICE_COMMENTS = 5;
+
+  const renderComments = (array) => {
+    if (array.length <= FINISH_SLICE_COMMENTS) {
+      visibleCommentsCount.textContent = array.length;
+      commentsLoader.classList.add('hidden');
+      return createComments(array);
+    }
+    visibleCommentsCount.textContent = FINISH_SLICE_COMMENTS;
+    return createComments(array.slice(START_SLICE_COMMENTS, FINISH_SLICE_COMMENTS));
+  };
 
   const closeBigPicture = () => {
     bitPicture.classList.add('hidden');
@@ -28,8 +41,7 @@ export const interactWithBigPicture = () => {
     }
   };
 
-
-  containerPhoto.addEventListener('click', (evt) => {
+  const fullPhoto = (evt) => {
     const evtClosestPicture = evt.target.closest('.picture');
     if (evtClosestPicture) {
       const target = evt.target.closest('.picture');
@@ -39,13 +51,23 @@ export const interactWithBigPicture = () => {
       bigPictureLikes.textContent = currentDescription.likes;
       bigPictureComments.textContent = currentDescription.comments.length;
       bigPictureDescriptions.textContent = currentDescription.descriptions;
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
       body.classList.add('modal-open');
-      renderComments(currentDescription.comments);
+      const arrayElem = currentDescription.comments;
+      renderComments(arrayElem);
+
+      commentsLoader.addEventListener('click', () => {
+        START_SLICE_COMMENTS += STEP_SHOW_COMMENTS;
+        FINISH_SLICE_COMMENTS += STEP_SHOW_COMMENTS;
+        // вот тут после клика мне нужно вызвать ещё раз renderComments
+        renderComments(arrayElem);
+        // -----------------------------------------------------
+      });
     }
     document.addEventListener('keydown', onBigPictureEscKeydown);
-  });
+  };
+
+  containerPhoto.addEventListener('click', fullPhoto);
+
 
   bigPictureClose.addEventListener('click', closeBigPicture);
 };
