@@ -19,11 +19,12 @@ const validateHashtags = (symbol) => {
     return true;
   }
 
-  for (const hashtag of hashtags) {
-    if (!hastegValidateSymbols.test(hashtag)) {
-      return false;
-    }
+
+  if (!hashtags.every((hashtag) => hastegValidateSymbols.test(hashtag))) {
+    return false;
   }
+
+
   return hashtags.length <= MAX_HASHTAGS_COUNT && hashtags.length === uniqueHashtags.length;
 };
 
@@ -31,7 +32,7 @@ const validateDescriptions = (description) => description.length <= MAX_DESCRIPT
 
 
 const validateForm = (evt) => {
-  if(!pristine.validate()) {
+  if (!pristine.validate()) {
     evt.preventDefault();
   }
 };

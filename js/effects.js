@@ -56,7 +56,8 @@ const isDefault = () => chooseEffect === DEFAULT_EFFECT;
 const imageElement = document.querySelector('.img-upload__preview img');
 const effectsElement = document.querySelector('.effects');
 const levelSlider = document.querySelector('.effect-level__slider');
-const sliderContainerElement = document.querySelector('.img-upload__effect-level ');
+const sliderContainerElement = document.querySelector('.img-upload__effect-level');
+const effectLevelElement = document.querySelector('.effect-level__value');
 
 const showSlider = () => {
   sliderContainerElement.classList.remove('hidden');
@@ -83,37 +84,6 @@ const updateSlider = () => {
   }
 };
 
-const onSliderUpdate = () => {
-  const sliderValue = levelSlider.noUiSlider.get();
-  imageElement.style.filter = isDefault()
-    ? DEFAULT_EFFECT.style
-    : `${chooseEffect.style}(${sliderValue}${chooseEffect.unit})`;
-};
-
-const resetEffects = () => {
-  chooseEffect = DEFAULT_EFFECT;
-  updateSlider();
-};
-
-// noUiSlider.create(levelSlider, {
-//   range: {
-//     min: DEFAULT_EFFECT.min,
-//     max: DEFAULT_EFFECT.max,
-//   },
-//   start: DEFAULT_EFFECT.max,
-//   step: DEFAULT_EFFECT.step,
-//   connect: 'lower',
-// });
-
-noUiSlider.create(levelSlider, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 80,
-});
-
-
 const onEffectsChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     chooseEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
@@ -122,9 +92,32 @@ const onEffectsChange = (evt) => {
   }
 };
 
+const onSliderUpdate = () => {
+  const sliderValue = levelSlider.noUiSlider.get();
+  imageElement.style.filter = isDefault()
+    ? DEFAULT_EFFECT.style
+    : `${chooseEffect.style}(${sliderValue}${chooseEffect.unit})`;
+  effectLevelElement.value = sliderValue;
+};
+
+const resetEffects = () => {
+  chooseEffect = DEFAULT_EFFECT;
+  updateSlider();
+};
+
+noUiSlider.create(levelSlider, {
+  range: {
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
+  },
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
+  connect: 'lower',
+});
+
 hideSlider();
 
-levelSlider.addEventListener('update', onSliderUpdate);
+levelSlider.noUiSlider.on('update', onSliderUpdate);
 effectsElement.addEventListener('change', onEffectsChange);
 
-export {resetEffects};
+export { resetEffects };
