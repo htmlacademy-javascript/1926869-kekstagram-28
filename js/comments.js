@@ -10,9 +10,10 @@ const createComments = (comments) => {
     commentElement.querySelector('.social__picture').src = comment.avatar;
     commentElement.querySelector('.social__picture').alt = comment.name;
     commentElement.querySelector('.social__text').textContent = comment.message;
-    commentListFragment.appendChild(commentElement);
+    commentListFragment.append(commentElement);
+
   });
-  commentList.appendChild(commentListFragment);
+  commentList.append(commentListFragment);
 };
 
 export {createComments};

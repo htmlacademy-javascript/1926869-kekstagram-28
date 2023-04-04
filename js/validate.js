@@ -37,6 +37,11 @@ const validateForm = (evt) => {
   }
 };
 
+const resetInputForm = () => {
+  textHashtag.value = '';
+  textDescription.value = '';
+};
+
 pristine.addValidator(
   textHashtag,
   validateHashtags,
@@ -49,4 +54,4 @@ pristine.addValidator(
   `Длина комментария не может составлять больше ${MAX_DESCRIPTION_LENGTH} символов`
 );
 
-export { validateForm };
+export { validateForm, resetInputForm };

@@ -1,18 +1,27 @@
-import {isEscapeKey} from './util.js';
-import { validateForm } from './validate.js';
+import { isEscapeKey } from './util.js';
+import { validateForm, resetInputForm } from './validate.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
+import { sendData } from './api.js';
 
 const uploadSelectImage = document.querySelector('#upload-select-image');
 const uploadFile = uploadSelectImage.querySelector('#upload-file');
 const imgUploadOverlay = uploadSelectImage.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const imgUploadCancel = uploadSelectImage.querySelector('.img-upload__cancel');
+const submitButton = document.querySelector('.img-upload__submit');
 
 let closeFormEscKeydown = undefined;
 
-// ----
-// imgUploadOverlay.classList.remove('hidden');
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Опубликовываю...';
+};
+
+const unBlockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
 
 const closeForm = () => {
   imgUploadOverlay.classList.add('hidden');
@@ -22,6 +31,22 @@ const closeForm = () => {
   uploadSelectImage.removeEventListener('submit', validateForm);
   resetScale();
   resetEffects();
+};
+
+const onSuccess = () => {
+  closeForm();
+  resetInputForm();
+};
+
+const submitForm = (evt) => {
+  evt.preventDefault();
+  blockSubmitButton();
+  if (validateForm) {
+    const formData = new FormData(evt.target);
+    sendData(formData)
+      .then(onSuccess())
+      .finally(unBlockSubmitButton());
+  }
 };
 
 const openForm = () => {
@@ -42,3 +67,5 @@ closeFormEscKeydown = (evt) => {
     closeForm();
   }
 };
+
+uploadSelectImage.addEventListener('submit', submitForm);

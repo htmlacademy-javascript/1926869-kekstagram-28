@@ -117,6 +117,7 @@ noUiSlider.create(levelSlider, {
 
 hideSlider();
 
+
 levelSlider.noUiSlider.on('update', onSliderUpdate);
 effectsElement.addEventListener('change', onEffectsChange);
 
