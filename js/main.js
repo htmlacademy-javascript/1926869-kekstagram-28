@@ -9,5 +9,5 @@ getData()
     addPosts(response);
     interactWithBigPicture(response);
   })
-  .catch((err) => showAlert(err));
+  .catch((err) => showAlert(err.message));
 
