@@ -1,5 +1,7 @@
+import { showAlert } from './util.js';
+
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
-const errorMessage = 'Не удалось загрузить данные. Пожалуйста, обновите страницу.';
+const errorMessage = 'Не удалось загрузить изображение. Проверьте правильность заполнения полей и обновите страницу.';
 const methodApi = {
   POST: 'POST',
   GET: 'GET'
@@ -18,7 +20,7 @@ const load = (path, method = 'GET', body = null) =>
       return response.json();
     })
     .catch(() => {
-      throw new Error(errorMessage);
+      throw new Error(showAlert(errorMessage));
     });
 
 
