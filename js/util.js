@@ -40,9 +40,9 @@ const showAlert = (message) => {
 
   document.body.append(alertContainer);
 
-  // setTimeout(() => {
-  //   alertContainer.remove();
-  // }, ALERT_SHOW_TIME);
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
