@@ -1,8 +1,7 @@
 import { createComments } from './comments.js';
-import { data } from './create-post.js';
 import { isEscapeKey } from './util.js';
 
-export const interactWithBigPicture = () => {
+export const interactWithBigPicture = (data) => {
   const bigPictureClose = document.querySelector('.big-picture__cancel');
   const containerPhoto = document.querySelector('.pictures');
   const bitPicture = document.querySelector('.big-picture');
@@ -30,12 +29,14 @@ export const interactWithBigPicture = () => {
     return createComments(array.slice(startSliceComments, finishSliceComments));
   };
 
-  const closeBigPicture = () => {
+
+  const closeBigPicture = (fn = null) => {
     bitPicture.classList.add('hidden');
     body.classList.remove('modal-open');
     startSliceComments = 0;
     finishSliceComments = 5;
     document.removeEventListener('keydown', onBigPictureEscKeydown);
+    commentsLoader.removeEventListener('click', fn);
   };
 
   onBigPictureEscKeydown = (evt) => {
@@ -49,6 +50,7 @@ export const interactWithBigPicture = () => {
     if (evtClosestPicture) {
       const target = evt.target.closest('.picture');
       const currentDescription = data.find((item) => item.id === Number(target.dataset.id));
+
       bitPicture.classList.remove('hidden');
       bigPictureImg.src = currentDescription.url;
       bigPictureLikes.textContent = currentDescription.likes;
@@ -57,17 +59,19 @@ export const interactWithBigPicture = () => {
       body.classList.add('modal-open');
       const arrayElem = currentDescription.comments;
       renderComments(arrayElem);
-
-      commentsLoader.addEventListener('click', () => {
-        startSliceComments += STEP_SHOW_COMMENTS;
+      const stepRenderComments = () => {
         finishSliceComments += STEP_SHOW_COMMENTS;
         renderComments(arrayElem);
+      };
+      commentsLoader.addEventListener('click', stepRenderComments);
+      bigPictureClose.addEventListener('click', () => {
+        closeBigPicture(stepRenderComments);
       });
     }
     document.addEventListener('keydown', onBigPictureEscKeydown);
+
   };
 
   containerPhoto.addEventListener('click', openWindowFullPhoto);
 
-  bigPictureClose.addEventListener('click', closeBigPicture);
 };

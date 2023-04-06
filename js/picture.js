@@ -1,15 +1,10 @@
-import { data } from './create-post.js';
-
-const addPosts = () => {
-
+const addPosts = (data) => {
   const picturePlace = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  const posts = data;
-
   const postFragment = document.createDocumentFragment();
 
-  posts.forEach(({ url, likes, comments, description, id}) => {
+  data.forEach(({url, description, comments, likes, id}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__img').alt = description;
@@ -21,5 +16,8 @@ const addPosts = () => {
   });
 
   picturePlace.append(postFragment);
+
 };
+
+
 export { addPosts };

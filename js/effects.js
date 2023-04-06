@@ -49,9 +49,9 @@ const EFFECTS = [
   },
 ];
 
-const DEFAULT_EFFECT = EFFECTS[0];
-let chooseEffect = DEFAULT_EFFECT;
-const isDefault = () => chooseEffect === DEFAULT_EFFECT;
+const defaultEffect = EFFECTS[0];
+let chooseEffect = defaultEffect;
+const isDefault = () => chooseEffect === defaultEffect;
 
 const imageElement = document.querySelector('.img-upload__preview img');
 const effectsElement = document.querySelector('.effects');
@@ -95,27 +95,28 @@ const onEffectsChange = (evt) => {
 const onSliderUpdate = () => {
   const sliderValue = levelSlider.noUiSlider.get();
   imageElement.style.filter = isDefault()
-    ? DEFAULT_EFFECT.style
+    ? defaultEffect.style
     : `${chooseEffect.style}(${sliderValue}${chooseEffect.unit})`;
   effectLevelElement.value = sliderValue;
 };
 
 const resetEffects = () => {
-  chooseEffect = DEFAULT_EFFECT;
+  chooseEffect = defaultEffect;
   updateSlider();
 };
 
 noUiSlider.create(levelSlider, {
   range: {
-    min: DEFAULT_EFFECT.min,
-    max: DEFAULT_EFFECT.max,
+    min: defaultEffect.min,
+    max: defaultEffect.max,
   },
-  start: DEFAULT_EFFECT.max,
-  step: DEFAULT_EFFECT.step,
+  start: defaultEffect.max,
+  step: defaultEffect.step,
   connect: 'lower',
 });
 
 hideSlider();
+
 
 levelSlider.noUiSlider.on('update', onSliderUpdate);
 effectsElement.addEventListener('change', onEffectsChange);
