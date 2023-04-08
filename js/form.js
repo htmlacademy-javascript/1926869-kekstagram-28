@@ -3,6 +3,7 @@ import { validateForm, resetInputForm } from './validate.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
+import { createSuccessMessage } from './fetch-message.js';
 
 const uploadSelectImage = document.querySelector('#upload-select-image');
 const uploadFile = uploadSelectImage.querySelector('#upload-file');
@@ -36,6 +37,7 @@ const closeForm = () => {
 const onSuccess = () => {
   closeForm();
   resetInputForm();
+  createSuccessMessage();
 };
 
 const submitForm = (evt) => {
