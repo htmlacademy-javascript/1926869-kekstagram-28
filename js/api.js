@@ -1,5 +1,11 @@
+import { showAlert } from './util.js';
+
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
-const errorMessage = 'Не удалось загрузить данные. Пожалуйста, обновите страницу.';
+const ErrorMessage = {
+  GET_ERROR_MESSAGE: 'Не удалось загрузить данные. Пожалуйста, обновите страницу.',
+  SEND_ERROR_MESSAGE: 'Не удалось отправить форму. Попробуйте ещё раз.'
+};
+
 const methodApi = {
   POST: 'POST',
   GET: 'GET'
@@ -9,7 +15,7 @@ const pathApi = {
   SEND_DATA: '/'
 };
 
-const load = (path, method = 'GET', body = null) =>
+const load = (path, errorMessage, method = 'GET', body = null) =>
   fetch(`${BASE_URL}${path}`, { method, body })
     .then((response) => {
       if (!response.ok) {
@@ -18,13 +24,13 @@ const load = (path, method = 'GET', body = null) =>
       return response.json();
     })
     .catch(() => {
-      throw new Error(errorMessage);
+      throw new Error(showAlert(errorMessage));
     });
 
 
-const getData = () => load(pathApi.GET_DATA);
+const getData = () => load(pathApi.GET_DATA, ErrorMessage.GET_ERROR_MESSAGE);
 
-const sendData = (body) => load(pathApi.SEND_DATA, methodApi.POST, body);
+const sendData = (body) => load(pathApi.SEND_DATA, ErrorMessage.SEND_ERROR_MESSAGE, methodApi.POST, body);
 
 export { getData, sendData };
 
