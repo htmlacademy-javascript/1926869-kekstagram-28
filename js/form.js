@@ -4,6 +4,7 @@ import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
 import { createSuccessMessage } from './fetch-message.js';
+import { loadImg } from './img-preview.js';
 
 const uploadSelectImage = document.querySelector('#upload-select-image');
 const uploadFile = uploadSelectImage.querySelector('#upload-file');
@@ -40,6 +41,13 @@ const onSuccess = () => {
   createSuccessMessage();
 };
 
+closeFormEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    closeForm();
+  }
+};
+
+
 const submitForm = (evt) => {
   evt.preventDefault();
   blockSubmitButton();
@@ -52,6 +60,7 @@ const submitForm = (evt) => {
 };
 
 const openForm = () => {
+
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
@@ -61,13 +70,19 @@ const openForm = () => {
   resetScale();
   resetEffects();
 };
-uploadFile.addEventListener('change', openForm);
 
-
-closeFormEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    closeForm();
-  }
+const onUploadPhotoChange = (evt) => {
+  evt.preventDefault();
+  openForm();
 };
 
-uploadSelectImage.addEventListener('submit', submitForm);
+const loadPhoto = () => {
+  uploadFile.addEventListener('change', (evt) => {
+    onUploadPhotoChange(evt);
+    loadImg (evt);
+  });
+  uploadSelectImage.addEventListener('submit', submitForm);
+};
+
+
+export { loadPhoto };

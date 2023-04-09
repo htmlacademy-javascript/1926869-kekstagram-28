@@ -45,8 +45,26 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const shuffleArray = (array) => {
+  for (let i = 0; i < array.length; i++) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert};
+export {getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert, shuffleArray, debounce};
