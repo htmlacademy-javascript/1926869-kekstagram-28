@@ -1,3 +1,5 @@
+const targetValueHashtag = document.querySelector('#hashtags');
+const targetTextareaComment = document.querySelector('.text__description');
 const ALERT_SHOW_TIME = 3000;
 
 const getRandomInteger = (min, max) => {
@@ -33,6 +35,7 @@ const showAlert = (message) => {
   alertContainer.style.right = '0';
   alertContainer.style.padding = '10px 3px';
   alertContainer.style.fontSize = '30px';
+  alertContainer.style.lineHeight = '35px';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
 
@@ -45,8 +48,26 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const shuffleArray = (array) => {
+  for (let i = 0; i < array.length; i++) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const isEscapeKey = (evt) =>evt.key === 'Escape' && evt.target !== targetValueHashtag && evt.target !== targetTextareaComment;
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert};
+export { getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert, shuffleArray, debounce };

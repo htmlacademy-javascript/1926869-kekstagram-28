@@ -6,7 +6,7 @@ const SCALE_STEP = 25;
 const smaller = document.querySelector('.scale__control--smaller');
 const bigger = document.querySelector('.scale__control--bigger');
 const ScaleValue = document.querySelector('.scale__control--value');
-const imagePreview = document.querySelector('.img-upload__preview');
+const imagePreview = document.querySelector('.img-upload__preview img');
 
 const scaleImage = (value) => {
   imagePreview.style.transform = `scale(${value / 100})`;

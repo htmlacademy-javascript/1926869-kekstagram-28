@@ -3,6 +3,8 @@ import { validateForm, resetInputForm } from './validate.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
+import { createSuccessMessage, createErrorMessage } from './fetch-message.js';
+import { loadImg } from './img-preview.js';
 
 const uploadSelectImage = document.querySelector('#upload-select-image');
 const uploadFile = uploadSelectImage.querySelector('#upload-file');
@@ -36,31 +38,8 @@ const closeForm = () => {
 const onSuccess = () => {
   closeForm();
   resetInputForm();
+  createSuccessMessage();
 };
-
-const submitForm = (evt) => {
-  evt.preventDefault();
-  blockSubmitButton();
-  if (validateForm) {
-    const formData = new FormData(evt.target);
-    sendData(formData)
-      .then(onSuccess())
-      .finally(unBlockSubmitButton());
-  }
-};
-
-const openForm = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-
-  document.addEventListener('keydown', closeFormEscKeydown);
-  imgUploadCancel.addEventListener('click', closeForm);
-  uploadSelectImage.addEventListener('submit', validateForm);
-  resetScale();
-  resetEffects();
-};
-uploadFile.addEventListener('change', openForm);
-
 
 closeFormEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -68,4 +47,41 @@ closeFormEscKeydown = (evt) => {
   }
 };
 
-uploadSelectImage.addEventListener('submit', submitForm);
+
+const submitForm = (evt) => {
+  evt.preventDefault();
+  blockSubmitButton();
+  if (validateForm) {
+    const formData = new FormData(evt.target);
+    sendData(formData)
+      .then(onSuccess)
+      .catch(createErrorMessage)
+      .finally(unBlockSubmitButton());
+  }
+};
+
+const openForm = () => {
+  imgUploadOverlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', closeFormEscKeydown);
+  imgUploadCancel.addEventListener('click', closeForm);
+  uploadSelectImage.addEventListener('submit', validateForm);
+  resetScale();
+  resetEffects();
+};
+
+const onUploadPhotoChange = (evt) => {
+  evt.preventDefault();
+  openForm();
+};
+
+const loadPhoto = () => {
+  uploadFile.addEventListener('change', (evt) => {
+    onUploadPhotoChange(evt);
+    loadImg (evt);
+  });
+  uploadSelectImage.addEventListener('submit', submitForm);
+};
+
+
+export { loadPhoto };
