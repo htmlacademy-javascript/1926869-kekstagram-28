@@ -60,10 +60,8 @@ const submitForm = (evt) => {
 };
 
 const openForm = () => {
-
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-
   document.addEventListener('keydown', closeFormEscKeydown);
   imgUploadCancel.addEventListener('click', closeForm);
   uploadSelectImage.addEventListener('submit', validateForm);

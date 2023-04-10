@@ -1,3 +1,5 @@
+const targetValueHashtag = document.querySelector('#hashtags');
+const targetTextareaComment = document.querySelector('.text__description');
 const ALERT_SHOW_TIME = 3000;
 
 const getRandomInteger = (min, max) => {
@@ -63,8 +65,8 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const isEscapeKey = (evt) =>evt.key === 'Escape' && evt.target !== targetValueHashtag && evt.target !== targetTextareaComment;
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert, shuffleArray, debounce};
+export { getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey, isEnterKey, showAlert, shuffleArray, debounce };
