@@ -3,7 +3,7 @@ import { validateForm, resetInputForm } from './validate.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
-import { createSuccessMessage } from './fetch-message.js';
+import { createSuccessMessage, createErrorMessage } from './fetch-message.js';
 import { loadImg } from './img-preview.js';
 
 const uploadSelectImage = document.querySelector('#upload-select-image');
@@ -54,7 +54,8 @@ const submitForm = (evt) => {
   if (validateForm) {
     const formData = new FormData(evt.target);
     sendData(formData)
-      .then(onSuccess())
+      .then(onSuccess)
+      .catch(createErrorMessage)
       .finally(unBlockSubmitButton());
   }
 };

@@ -1,17 +1,34 @@
 import { isEscapeKey } from './util.js';
+
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const renderMessage = (element) => document.body.append(element);
+
+let errorMessageClone;
+let successMessageClone;
+
+const createErrorMessage = () => {
+  errorMessageClone = errorTemplate.cloneNode(true);
+  renderMessage(errorMessageClone);
+  errorMessageClone.addEventListener('click', onErrorMessageClick);
+  document.addEventListener('keydown', onErrorMessageKeydown);
+};
 
 const removeErrorMessage = () => {
+  errorMessageClone.remove();
   document.removeEventListener('keydown', onErrorMessageKeydown);
+};
 
-  document.querySelector('.success').remove();
+const createSuccessMessage = () => {
+  successMessageClone = successTemplate.cloneNode(true);
+  renderMessage(successMessageClone);
+  successMessageClone.addEventListener('click', onSuccessMessageClick);
+  document.addEventListener('keydown', onSuccessMessageKeydown);
 };
 
 const removeSuccessMessage = () => {
+  successMessageClone.remove();
   document.removeEventListener('keydown', onSuccessMessageKeydown);
-  document.querySelector('.success').removeEventListener('click', onSuccessMessageClick);
-
-  document.querySelector('.success').remove();
 };
 
 function onErrorMessageKeydown(evt) {
@@ -28,21 +45,18 @@ function onSuccessMessageKeydown(evt) {
   }
 }
 
-function onSuccessMessageClick(evt){
+function onErrorMessageClick(evt) {
   evt.preventDefault();
-  if(evt.target.closest('.success__button') || evt.target.matches('.success')) {
+  if (evt.target.closest('.error__button') || evt.target.matches('.error')) {
+    removeErrorMessage();
+  }
+}
+
+function onSuccessMessageClick(evt) {
+  evt.preventDefault();
+  if (evt.target.closest('.success__button') || evt.target.matches('.success')) {
     removeSuccessMessage();
   }
 }
 
-const renderMessage = (element) => document.body.append(element);
-
-const createSuccessMessage = () => {
-  const successMessage = successTemplate.cloneNode(true);
-  renderMessage(successMessage);
-
-  document.addEventListener('keydown', onSuccessMessageKeydown);
-  document.addEventListener('click', onSuccessMessageClick);
-};
-
-export { createSuccessMessage };
+export { createErrorMessage, createSuccessMessage };
