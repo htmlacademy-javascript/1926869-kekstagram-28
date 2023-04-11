@@ -6,7 +6,6 @@ const RERENDER_DELAY = 500;
 
 const imgFilters = document.querySelector('.img-filters');
 
-
 const removeElements = (elements) => {
   elements.forEach((element) => element.remove());
 };
