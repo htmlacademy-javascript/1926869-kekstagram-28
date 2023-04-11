@@ -27,7 +27,6 @@ const load = (path, errorMessage, method = 'GET', body = null) =>
       throw new Error(showAlert(errorMessage));
     });
 
-
 const getData = () => load(pathApi.GET_DATA, ErrorMessage.GET_ERROR_MESSAGE);
 
 const sendData = (body) => load(pathApi.SEND_DATA, ErrorMessage.SEND_ERROR_MESSAGE, methodApi.POST, body);
