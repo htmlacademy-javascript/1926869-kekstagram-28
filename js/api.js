@@ -3,7 +3,7 @@ import { showAlert } from './util.js';
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 const ErrorMessage = {
   GET_ERROR_MESSAGE: 'Не удалось загрузить данные. Обновите страницу.',
-  SEND_ERROR_MESSAGE: 'Не удалось отправить форму. Попробуйте ещё раз.'
+  SEND_ERROR_MESSAGE: 'Не удалось отправить форму. Повторите попытку.'
 };
 
 const methodApi = {
@@ -26,6 +26,7 @@ const load = (path, errorMessage, method = 'GET', body = null) =>
     .catch(() => {
       throw new Error(showAlert(errorMessage));
     });
+
 
 const getData = () => load(pathApi.GET_DATA, ErrorMessage.GET_ERROR_MESSAGE);
 
