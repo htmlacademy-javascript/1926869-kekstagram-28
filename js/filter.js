@@ -25,6 +25,15 @@ const reRenderPhotos = (data, id) => {
   addPosts(sortArray);
 };
 
+const a = 1;
+const b = 2;
+
+const sum = (c, d) => {
+  return c + d;
+}
+
+console.log(sum(a,b))
+
 const rerenderTimeout = debounce((data, id) => reRenderPhotos(data, id), RERENDER_DELAY);
 
 const onImgFiltersClick = (evt, data) => {
