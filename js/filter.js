@@ -6,8 +6,6 @@ const RERENDER_DELAY = 500;
 
 const imgFilters = document.querySelector('.img-filters');
 
-const testNumb = 123;
-
 const removeElements = (elements) => {
   elements.forEach((element) => element.remove());
 };
@@ -24,10 +22,6 @@ const reRenderPhotos = (data, id) => {
     sortArray = shuffleArray(dataCopy).slice(0, RANDOM_COMMENT_COUNT);
   }
   addPosts(sortArray);
-
-  const test = document.createElement('div');
-  test.textContent = testNumb;
-  document.querySelector('body').append(test);
 };
 
 const rerenderTimeout = debounce((data, id) => reRenderPhotos(data, id), RERENDER_DELAY);
