@@ -6,11 +6,11 @@ const createComments = (comments) => {
   commentList.innerHTML = '';
 
   comments.forEach((comment) => {
-    const commentElement = commentListElement.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = comment.avatar;
-    commentElement.querySelector('.social__picture').alt = comment.name;
-    commentElement.querySelector('.social__text').textContent = comment.message;
-    commentListFragment.append(commentElement);
+    const elementComment = commentListElement.cloneNode(true);
+    elementComment.querySelector('.social__picture').src = comment.avatar;
+    elementComment.querySelector('.social__picture').alt = comment.name;
+    elementComment.querySelector('.social__text').textContent = comment.message;
+    commentListFragment.append(elementComment);
 
   });
   commentList.append(commentListFragment);
