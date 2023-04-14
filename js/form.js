@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { validateForm, resetInputForm } from './validate.js';
+import { onValidateForm, resetInputForm } from './validate.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
@@ -13,7 +13,7 @@ const body = document.querySelector('body');
 const imgUploadCancel = uploadSelectImage.querySelector('.img-upload__cancel');
 const submitButton = document.querySelector('.img-upload__submit');
 
-let closeFormEscKeydown = undefined;
+let onKeydownEsc = undefined;
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -25,25 +25,26 @@ const unBlockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const closeForm = () => {
+const onCloseForm = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', closeFormEscKeydown);
-  imgUploadCancel.removeEventListener('click', closeForm);
-  uploadSelectImage.removeEventListener('submit', validateForm);
+  document.removeEventListener('keydown', onKeydownEsc);
+  imgUploadCancel.removeEventListener('click', onCloseForm);
+  uploadSelectImage.removeEventListener('submit', onValidateForm);
   resetScale();
   resetEffects();
 };
 
 const onSuccess = () => {
-  closeForm();
+  onCloseForm();
   resetInputForm();
   createSuccessMessage();
+  unBlockSubmitButton();
 };
 
-closeFormEscKeydown = (evt) => {
+onKeydownEsc = (evt) => {
   if (isEscapeKey(evt)) {
-    closeForm();
+    onCloseForm();
   }
 };
 
@@ -51,7 +52,7 @@ closeFormEscKeydown = (evt) => {
 const submitForm = (evt) => {
   evt.preventDefault();
   blockSubmitButton();
-  if (validateForm) {
+  if (onValidateForm()) {
     const formData = new FormData(evt.target);
     sendData(formData)
       .then(onSuccess)
@@ -63,9 +64,9 @@ const submitForm = (evt) => {
 const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', closeFormEscKeydown);
-  imgUploadCancel.addEventListener('click', closeForm);
-  uploadSelectImage.addEventListener('submit', validateForm);
+  document.addEventListener('keydown', onKeydownEsc);
+  imgUploadCancel.addEventListener('click', onCloseForm);
+  uploadSelectImage.addEventListener('submit', onValidateForm);
   resetScale();
   resetEffects();
 };
