@@ -19,13 +19,13 @@ const validateHashtags = (symbol) => {
   const hashtags = hashtagsLower.split(' ');
   const uniqueHashtags = [...new Set(hashtags)];
   if (symbol === '') {
-    // uploadSubmit.disabled = false;
+    uploadSubmit.disabled = false;
     return true;
   }
 
 
   if (!hashtags.every((hashtag) => hastegValidateSymbols.test(hashtag))) {
-    // uploadSubmit.disabled = true;
+    uploadSubmit.disabled = true;
     return false;
   }
 
@@ -35,19 +35,14 @@ const validateHashtags = (symbol) => {
 
 const validateDescriptions = (description) => {
   if (description.length <= MAX_DESCRIPTION_LENGTH) {
-    // uploadSubmit.disabled = false;
+    uploadSubmit.disabled = false;
     return true;
   }
-
   uploadSubmit.disabled = true;
 };
 
 
-const validateForm = (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-};
+const onValidateForm = () => pristine.validate();
 
 const resetInputForm = () => {
   textHashtag.value = '';
@@ -66,4 +61,4 @@ pristine.addValidator(
   `Длина комментария не может составлять больше ${MAX_DESCRIPTION_LENGTH} символов`,
 );
 
-export { validateForm, resetInputForm };
+export { onValidateForm, resetInputForm };

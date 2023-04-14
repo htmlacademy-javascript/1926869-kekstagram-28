@@ -1,6 +1,7 @@
+const ALERT_SHOW_TIME = 3000;
 const targetValueHashtag = document.querySelector('#hashtags');
 const targetTextareaComment = document.querySelector('.text__description');
-const ALERT_SHOW_TIME = 3000;
+
 
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
